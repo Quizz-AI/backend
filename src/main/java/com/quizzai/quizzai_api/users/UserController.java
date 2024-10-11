@@ -6,9 +6,13 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.http.ResponseEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RequiredArgsConstructor
 @RestController()
@@ -17,11 +21,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class UserController {
     
 
+    private final UserService userService;
 
     @GetMapping()
     @Operation(summary = "Get all users")
-    public ResponseEntity<String> getUsersExample() {
-        return ResponseEntity.ok().body("salve");
+    public Page<UserEntity> getAllUsers(
+        @RequestParam(required = false) Long id,
+        @RequestParam(required = false) String name,
+        @RequestParam(required = false) String email,
+        @RequestParam(required = false) String country,
+        @PageableDefault(sort="id", direction=Sort.Direction.ASC) Pageable pageable
+    ) {
+        return this.userService.findAll(id, name, email, country, pageable);
     }
     
 }
