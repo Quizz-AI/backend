@@ -16,4 +16,18 @@ public class UserService {
     public Page<UserEntity> findAll(Long id, String name, String email, String country, Pageable pageable) {
         return userRepository.findByFilter(id, name, email, country, pageable);
     }
+
+
+    public UserEntity createUser(UserRegisterDTO user) {
+        UserEntity u = UserEntity.builder()
+                .name(user.getName())
+                .email(user.getEmail())
+                .password(user.getPassword())
+                .country(user.getCountry())
+                .totalPoints(0L)
+                .quizCount(0L)
+                .rightCount(0L)
+                .build();
+        return userRepository.save(u);
+    }
 }

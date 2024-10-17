@@ -1,6 +1,7 @@
 package com.quizzai.quizzai_api.users;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import lombok.*;
 
 @Getter
@@ -14,8 +15,8 @@ public class UserEntity {
     
     
     @Id
-    @SequenceGenerator(allocationSize = 1, name = "id_user_seq", sequenceName = "id_user_seq")
-    @GeneratedValue(generator = "id_user_seq", strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(name = "userIdSeq", sequenceName = "user_id_seq", allocationSize = 1)
+    @GeneratedValue(generator = "userIdSeq", strategy = GenerationType.SEQUENCE)
     @Column(name = "userId")
     private Long userId;
 
@@ -24,6 +25,7 @@ public class UserEntity {
     private String name;
 
     @NonNull
+    @Email(message = "Email should be valid")
     @Column(name = "email")
     private String email;
 

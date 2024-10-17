@@ -26,13 +26,11 @@ public class SecurityConfig {
 
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        HttpSecurity httpSecurity = http.authorizeHttpRequests(
-                exchanges -> exchanges
-                        .anyRequest().permitAll()
-        );
+	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+		http
+			.authorizeHttpRequests((requests) -> requests
+				.requestMatchers("/**", "/users/**", "/users", "/**", "/users/register").permitAll());
 
-        return httpSecurity.build();
-
-    }
+		return http.csrf().disable().build();
+	}
 }
