@@ -1,5 +1,8 @@
 package com.quizzai.quizzai_api.users;
 
+import com.quizzai.quizzai_api.quizes.QuizEntity;
+import com.quizzai.quizzai_api.rooms.RoomEntity;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.*;
@@ -49,8 +52,10 @@ public class UserEntity {
     @Column(name = "country")
     private String country;
 
-    // @OneToMany
-    // @JoinColumn(name = "owned_room_id")
-    // private RoomEntity roomsOwned;
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
+    private List<RoomEntity> ownedRooms;
+
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
+    private List<QuizEntity> quizzes;
     
 }
